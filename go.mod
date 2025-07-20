@@ -1,3 +1,3 @@
-module k8s-demo
+module k8s-combat
 
 go 1.24
