@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: k8s-combat-service
+  labels:
+    app: k8s-combat-service
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: k8s-combat-service
+  template:
+    metadata:
+      name: k8s-combat-service
+      labels:
+        app: k8s-combat-service
+    spec:
+      containers:
+        - name: k8s-combat-service
+          image: k8s-combat:1.1
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8080
+              protocol: TCP
+      restartPolicy: Always
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: k8s-combat-service
+spec:
+  selector:
+    app: k8s-combat-service
+  ports:
+    - protocol: TCP
+      port: 8080
+      targetPort: 8080
+  type: NodePort

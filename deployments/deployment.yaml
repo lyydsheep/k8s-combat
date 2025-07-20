@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: k8s-combat
-          image: k8s-combat:1.0
+          image: k8s-combat:1.1
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 80
