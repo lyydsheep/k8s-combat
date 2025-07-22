@@ -1,0 +1,50 @@
+# 指定 API 版本为 networking.k8s.io/v1，适用于 Kubernetes v1.19 及以上版本
+apiVersion: networking.k8s.io/v1
+# 定义资源类型为 Ingress
+kind: Ingress
+# 元数据部分，包含资源的名称
+metadata:
+  # Ingress 的名称为 k8s-combat-ingress
+  name: k8s-combat-ingress
+# Ingress 的规格定义
+spec:
+  # 指定使用的 Ingress 控制器为 nginx
+  ingressClassName: nginx
+  # 定义 Ingress 的路由规则
+  rules:
+    # 第一条规则：匹配主机名为 www.service1.io 的请求
+    - host: www.service1.io
+      # HTTP 协议下的路径路由
+      http:
+        paths:
+          # 定义路径的后端服务
+          - backend:
+              # 后端服务的定义
+              service:
+                # 后端服务名称为 k8s-combat-service
+                name: k8s-combat-service
+                # 后端服务的端口为 8080
+                port:
+                  number: 8080
+            # 匹配所有路径
+            path: /
+            # 路径匹配类型为 Prefix，表示路径前缀匹配
+            pathType: Prefix
+    # 第二条规则：匹配主机名为 www.service2.io 的请求
+    - host: www.service2.io
+      # HTTP 协议下的路径路由
+      http:
+        paths:
+          # 定义路径的后端服务
+          - backend:
+              # 后端服务的定义
+              service:
+                # 后端服务名称为 k8s-combat-service
+                name: k8s-combat-service
+                # 后端服务的端口为 8080
+                port:
+                  number: 8080
+            # 匹配所有路径
+            path: /
+            # 路径匹配类型为 Prefix，表示路径前缀匹配
+            pathType: Prefix
