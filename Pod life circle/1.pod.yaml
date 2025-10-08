@@ -1,0 +1,24 @@
+# 验证 init-c 容器的阻塞性
+# 1:
+apiVersion: v1
+kind: Pod
+metadata:
+  name: init-c-1
+  labels:
+    role: init-c-1
+spec:
+  containers:
+    - name: myapp-container
+      image: wangyanglinux/tools:busybox
+      imagePullPolicy: IfNotPresent
+      command: [ "sh", "-c", "echo The app is running! && sleep 3600" ]
+  initContainers:
+    - name: init-myservice
+      image: wangyanglinux/tools:busybox
+      command: [ "sh", "-c", "until nslookup myservice; do echo waiting for myservice; sleep 2; done;" ]
+    - name: init-mydb
+      image: wangyanglinux/tools:busybox
+      command: [ "sh", "-c", "until nslookup mydb; do echo waiting for mydb; sleep 2; done;" ]
+  restartPolicy: Always
+# 2: kubectl create svc clusterip myservice --tcp=80:80
+# 3: kubectl create svc clusterip mydb --tcp=80:80
