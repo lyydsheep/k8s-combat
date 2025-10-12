@@ -1,0 +1,21 @@
+# 验证存活探针在校验失败后会杀死容器
+# 然后根据容器策略进行重启操作
+apiVersion: v1
+kind: Pod
+metadata:
+  name: pod-4
+  labels:
+    app: myapp
+spec:
+  containers:
+    - name: myapp-container
+      image: wangyanglinux/tools:busybox
+      command: ["/bin/sh", "-c", "touch /tmp/live; sleep 60; rm -rf /tmp/live; sleep 3600"]
+      imagePullPolicy: IfNotPresent
+      livenessProbe:
+        exec:
+          command:
+            - cat
+            - /tmp/live
+        initialDelaySeconds: 5
+        periodSeconds: 5

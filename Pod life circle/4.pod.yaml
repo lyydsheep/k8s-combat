@@ -1,0 +1,18 @@
+# 验证 service 只会负载均衡标签匹配并且就绪的 Pod
+apiVersion: v1
+kind: Pod
+metadata:
+  name: read
+  labels:
+    app: myapp
+spec:
+  containers:
+    - name: myapp-container
+      image: wangyanglinux/myapp:v1.0
+      imagePullPolicy: IfNotPresent
+      readinessProbe:
+        httpGet:
+          path: /ready
+          port: 80
+        initialDelaySeconds: 5
+        periodSeconds: 10

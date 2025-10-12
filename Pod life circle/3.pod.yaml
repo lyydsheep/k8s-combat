@@ -1,0 +1,11 @@
+# 验证 service 只会负载均衡标签匹配并且就绪的 Pod
+apiVersion: v1
+kind: Pod
+metadata:
+  name: pod-2
+  labels:
+    app: myapp
+spec:
+  containers:
+    - name: myapp-container
+      image: wangyanglinux/myapp:v1.0
