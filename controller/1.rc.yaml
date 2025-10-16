@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  name: myreplicaset
+  labels:
+    app: myapp
+    key: hello
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      key: hello
+  template:
+    metadata:
+      labels:
+        key: hello
+    spec:
+      containers:
+        - name: myapp
+          image: wangyanglinux/myapp:v1.0
+          env:
+            - name: GET_HOSTS_FROM
+              value: dns
+          ports:
+            - containerPort: 80

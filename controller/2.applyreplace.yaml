@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: myapp
+  labels:
+    app: myapp
+spec:
+  selector:
+    matchLabels:
+      app: myapp
+  template:
+    metadata:
+      name: myapp
+      labels:
+        app: myapp
+    spec:
+      containers:
+        - name: myapp
+          image: wangyanglinux/myapp:v1.0
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 80
+              protocol: TCP
+      restartPolicy: Always
