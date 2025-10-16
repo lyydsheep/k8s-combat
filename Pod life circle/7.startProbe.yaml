@@ -1,0 +1,27 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: startprobe
+  labels:
+    role: startprobe
+spec:
+  containers:
+    - name: startprobe
+      image: wangyanglinux/myapp:v1.0
+      imagePullPolicy: IfNotPresent
+      ports:
+        - containerPort: 80
+          protocol: TCP
+      readinessProbe:
+        httpGet:
+          path: /index2.html
+          port: 80
+        initialDelaySeconds: 5
+        periodSeconds: 10
+      startupProbe:
+        httpGet:
+          path: /index1.html
+          port: 80
+        failureThreshold: 30
+        periodSeconds: 10
+  restartPolicy: Always
