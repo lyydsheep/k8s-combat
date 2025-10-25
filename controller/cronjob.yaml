@@ -1,0 +1,16 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: cronjob-demo
+spec:
+  schedule: "* * * * *" #	Run every minute
+  jobTemplate:
+    spec:
+      completions: 3
+      template:
+        spec:
+          containers:
+            - name: cronjob-demo-container
+              image: hello-world:latest
+              imagePullPolicy: IfNotPresent
+          restartPolicy: OnFailure
