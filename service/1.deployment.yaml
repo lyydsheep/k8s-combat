@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: myapp
+spec:
+  selector:
+    matchLabels:
+      app: myapp
+      release: demo
+      svc: clusterip
+  template:
+    metadata:
+      labels:
+        app: myapp
+        release: demo
+        svc: clusterip
+    spec:
+      containers:
+      - name: myapp
+        image: wangyanglinux/myapp:v1.0
+        ports:
+        - containerPort: 80
+        readinessProbe:
+          httpGet:
+            path: /hello.html
+            port: 80
+          initialDelaySeconds: 5
+          periodSeconds: 10
