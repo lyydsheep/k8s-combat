@@ -1,0 +1,23 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: volume-hostpath-pod
+  labels:
+    role: volume-hostpath-pod
+spec:
+  volumes:
+    - name: hostpath-volume
+      hostPath:
+          path: /version.json
+          type: File
+  containers:
+    - name: volume-hostpath-pod
+      image: wangyanglinux/myapp:v1.0
+      imagePullPolicy: IfNotPresent
+      ports:
+        - containerPort: 80
+          protocol: TCP
+      volumeMounts:
+        - mountPath: /test
+          name: hostpath-volume
+  restartPolicy: Always

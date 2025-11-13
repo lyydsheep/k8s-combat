@@ -1,0 +1,31 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: volume-emptydir-pod
+  labels:
+    role: volume-emptydir-pod
+spec:
+  volumes:
+    - name: volume-emptydir
+      emptyDir: {}
+  containers:
+    - name: volume-emptydir-pod-myapp
+      image: wangyanglinux/myapp:v1.0
+      imagePullPolicy: IfNotPresent
+      ports:
+        - containerPort: 80
+          protocol: TCP
+      volumeMounts:
+        - mountPath: /usr/local/nginx/logs
+          name: volume-emptydir
+    - name: volume-emptydir-pod-busybox
+      image: wangyanglinux/tools:busybox
+      imagePullPolicy: IfNotPresent
+      command:
+        - /bin/sh
+        - -c
+        - "touch /log/access.log && tail -f /log/access.log"
+      volumeMounts:
+        - name: volume-emptydir
+          mountPath: /log
+  restartPolicy: Always
